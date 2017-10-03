@@ -157,7 +157,7 @@
         if (keepAlive) {
             // This is now an async task. Since we don't call the "done"
             // function, this task will never, ever, ever terminate. Have fun!
-            grunt.log.write('Waiting forever...\n');
+            grunt.log.write('\nWaiting forever...\n');
         }
     });
 

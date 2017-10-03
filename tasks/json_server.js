@@ -33,21 +33,7 @@
         	noCors: false,
         	readOnly: false,
         	db: '',
-        	middlewares: [(req, res, next) => {
-        		debugger;
-        		const backendCall = req.originalUrl.startsWith('/api')
-        		if(!backendCall){
-        			next()
-        		} else {
-        			var redirect = url.format({
-        				protocol: req.protocol,
-        				host: req.get('host'),
-        				port: 9000,
-        				pathname: req.originalUrl
-        			});
-        			res.redirect(redirect)
-        		}
-        	}],
+        	middlewares: undefined,
         	router: '/'
 
         });
@@ -100,7 +86,9 @@
         }
 
         grunt.log.write('Loading database from ' + source + '\n');
-
+				if(options.livereload){
+        	server.use(options.livereload)
+        }
         if (options.routes) {
         	grunt.log.write('Loading additional routes from ' + options.routes + '\n');
         	var routesObject = require(path.resolve(options.routes));
@@ -120,6 +108,7 @@
         		server.use(options.middlewares[i]);
         	}
         }
+
 
         if (options.readOnly) {
         	grunt.log.writeln('Allowing only GET requests');
